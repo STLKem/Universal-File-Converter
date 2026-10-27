@@ -1,0 +1,6 @@
+id,name,email,age,city,active,balance,joined,notes
+1,Anna Petrova,anna@example.com,28,"Moscow, Russia",true,1250.50,2024-03-12,"Prefers email, not phone"
+2,Ivan Sokolov,ivan@example.com,34,Saint Petersburg,false,80.00,2023-11-02,
+3,Maria Kim,maria@example.com,22,"Kazan, Tatarstan",true,0,2025-01-19,"Name contains ""Kim"""
+4,Omar Hassan,omar@example.com,41,Dubai,true,9800.75,2022-07-30,VIP client
+5,Elena Volkova,elena@example.com,19,Novosibirsk,false,15.25,2025-06-08,Student discount
