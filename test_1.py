@@ -62,12 +62,20 @@
 import csv
 import json
 
+import pypandoc
+
 print("1 - csv->json")
 print("2 - json->csv")
+print("3 - docs->txt")
+print("4 - txt->docs")
+print("5 - docx->odt")
+print("6 - odt->docx")
 direction = input("Choose: ").strip()
 path = input("Enter file path: ")
 # 1  D:\Universal-File-Converter\samples\people.csv
-# 2  D:\Universal-File-Converter\samples\people.json
+# 2  D:\Universal-File-Converter\samples\people.json 
+# 3  D:\Universal-File-Converter\samples\people.docx
+# 4  D:\Universal-File-Converter\samples\people.txt 
 
 match direction:
     case "1":
@@ -84,7 +92,15 @@ match direction:
             writer = csv.DictWriter(csvfile, fieldnames=data[0].keys())
             writer.writeheader()
             writer.writerows(data)
+    case "3":
+        pypandoc.convert_file(path, "plain", outputfile="output.txt")
+    case "4":
+        pypandoc.convert_file(path, "docx", format="plain", outputfile="output.docx")
+    case "5":
+        pypandoc.convert_file(path, "odt", outputfile="output.odt")
+    case "6":
+        pypandoc.convert_file(path, "docx", outputfile="output.docx") 
     case _:
-        print("Unknown choice. Use 1 or 2.")
+        print("Unknown choice.")
 
 
