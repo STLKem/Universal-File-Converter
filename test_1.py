@@ -66,8 +66,8 @@ import pypandoc
 
 print("1 - csv->json")
 print("2 - json->csv")
-print("3 - docs->txt")
-print("4 - txt->docs")
+print("3 - docx->txt")
+print("4 - txt->docx")
 print("5 - docx->odt")
 print("6 - odt->docx")
 direction = input("Choose: ").strip()
