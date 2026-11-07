@@ -29,57 +29,52 @@ class FileConverter:
         mainframe = ttk.Frame(root, padding=(12))
         mainframe.grid(column=0, row=0, sticky=(N, W, E, S))
 
-        ttk.Label(mainframe, text="FileConverter").grid(column=1, row=0, sticky=(N))
+        ttk.Label(mainframe, text="FileConverter").grid(column=1, row=0, sticky=(W, E))
 
-
-        ttk.Label(mainframe, text="From").grid(column=2, row=0, sticky=(N))
+        ttk.Label(mainframe, text="From").grid(column=2, row=0, sticky=(W, E))
 
         self.fromFormat = StringVar()
-        self.fromConvert = ttk.Combobox(mainframe, textvariable=self.fromFormat, state="readonly")
-        self.fromConvert.grid(column=3, row=0, sticky=(N))
+        self.fromConvert = ttk.Combobox(mainframe, textvariable=self.fromFormat, state="readonly", width=8)
+        self.fromConvert.grid(column=3, row=0, sticky=(W, E))
         self.fromConvert['values'] = tuple(self.TARGETS)
         self.fromConvert.bind("<<ComboboxSelected>>", self.update_to_formats)
 
-        ttk.Label(mainframe, text="To").grid(column=4, row=0, sticky=(N))
+        ttk.Label(mainframe, text="To").grid(column=4, row=0, sticky=(W, E))
 
         self.toFormat = StringVar()
-        self.toConvert = ttk.Combobox(mainframe, textvariable=self.toFormat, state="readonly")
-        self.toConvert.grid(column=5, row=0, sticky=(N))
+        self.toConvert = ttk.Combobox(mainframe, textvariable=self.toFormat, state="readonly", width=8)
+        self.toConvert.grid(column=5, row=0, sticky=(W, E))
         self.toConvert['values'] = ()
 
-        ttk.Label(mainframe, text="File To Convert: ").grid(column=0, row=1, sticky=(N, W, E, S))
+        ttk.Label(mainframe, text="File To Convert: ").grid(column=0, row=1, sticky=(W, E))
         self.OpenPath = StringVar()
-        ttk.Label(mainframe, textvariable=self.OpenPath).grid(column=1, row=1, sticky=(N, W, E, S))
-        ttk.Button(mainframe, text="Open File", command=self.openfile).grid(column=2, row=1, sticky=(N, W, E, S))
-        
-        ttk.Label(mainframe, text="Path Output: ").grid(column=0, row=2, sticky=(N, W, E, S))
+        self.openPathLabel = ttk.Label(mainframe, textvariable=self.OpenPath, width=36)
+        self.openPathLabel.grid(column=1, row=1, sticky=(W, E))
+        ttk.Button(mainframe, text="Open File", command=self.openfile).grid(column=2, row=1, sticky=(W, E))
+
+        ttk.Label(mainframe, text="Path Output: ").grid(column=0, row=2, sticky=(W, E))
         self.SavePath = StringVar()
-        ttk.Label(mainframe, textvariable=self.SavePath).grid(column=1, row=2, sticky=(N, W, E, S))
-        ttk.Button(mainframe, text="Save Path", command=self.savefile).grid(column=2, row=2, sticky=(N, W, E, S))
+        self.savePathLabel = ttk.Label(mainframe, textvariable=self.SavePath, width=36)
+        self.savePathLabel.grid(column=1, row=2, sticky=(W, E))
+        ttk.Button(mainframe, text="Save Path", command=self.savefile).grid(column=2, row=2, sticky=(W, E))
 
-        ttk.Button(mainframe, text="Convert", command=self.convert).grid(column=1, row=3, sticky=(N, W, E, S))
+        ttk.Button(mainframe, text="Convert", command=self.convert).grid(column=1, row=3, sticky=(W, E))
 
-
-        # #self.feet = StringVar()
-        # feet_entry = ttk.Entry(mainframe, width=7, textvariable=self.feet)
-        # feet_entry.grid(column=2, row=1, sticky=(W, E))
-        # #self.meters = StringVar()
-
-        # #ttk.Label(mainframe, textvariable=self.meters).grid(column=2, row=2, sticky=(W, E))
-        # ttk.Button(mainframe, text="Calculate", command=self.calculate).grid(column=3, row=3, sticky=W)
-
-        # ttk.Label(mainframe, text="feet").grid(column=3, row=1, sticky=W)
-        # ttk.Label(mainframe, text="is equivalent to").grid(column=1, row=2, sticky=E)
-        # ttk.Label(mainframe, text="meters").grid(column=3, row=2, sticky=W)
-
+        root.minsize(700, 200)
         root.columnconfigure(0, weight=1)
         root.rowconfigure(0, weight=1)
-        mainframe.columnconfigure(2, weight=1)
-        for child in mainframe.winfo_children(): 
+        for column in range(6):
+            mainframe.columnconfigure(column, weight=1)
+        for child in mainframe.winfo_children():
             child.grid_configure(padx=5, pady=5)
 
-        # feet_entry.focus()
-        #root.bind("<Return>", self.calculate)
+
+    def show_path(self, var, path, max_chars=36):
+        if len(path) <= max_chars:
+            var.set(path)
+        else:
+            var.set("..." + path[-(max_chars - 3):])
+
     def openfile(self):
         try:
             path = askopenfilename()
@@ -87,7 +82,7 @@ class FileConverter:
                 print("Open cancelled: no input file selected")
                 return
             self.OpenedFile = path
-            self.OpenPath.set(path)
+            self.show_path(self.OpenPath, path)
         except Exception as e:
             print(e)
 
@@ -104,7 +99,6 @@ class FileConverter:
                 initialfile = f"output.{target_format}"
 
             path = asksaveasfilename(
-                defaultextension=f".{target_format}",
                 filetypes=[
                     (f"{target_format.upper()} files", f"*.{target_format}")
                 ],
@@ -119,7 +113,7 @@ class FileConverter:
                 path = path.with_suffix(f".{target_format}")
 
             self.SaveFile = str(path)
-            self.SavePath.set(self.SaveFile)
+            self.show_path(self.SavePath, self.SaveFile)
         except Exception as e:
             print(e)
 
@@ -209,24 +203,9 @@ class FileConverter:
         except Exception as e:
             print(f"Conversion failed: {e}")
         
-    # def calculate(self, *args):
-    #     try:
-    #         value = float(self.feet.get())
-    #         self.meters.set(round(0.3048 * value, 4))
-    #     except ValueError:
-    #         pass
 
 root = Tk()
-root.geometry('450x400')
+root.geometry('700x200')
 FileConverter(root)
 root.mainloop()
 
-# from tkinter import *
-# from tkinter.filedialog import *
-
-# Tk().withdraw() # we don't want a full GUI, so keep the root window from appearing
-# files = [('All Files', '*.*'), 
-#              ('Python Files', '*.py'),
-#              ('Text Document', '*.txt')]
-# filename = asksaveasfile(filetypes = files, defaultextension = files)
-# print(filename)
