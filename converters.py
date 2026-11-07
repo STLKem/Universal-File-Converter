@@ -12,18 +12,33 @@ TARGETS = {
     "odt": ("docx",),
 }
 
+PANDOC_PAIRS = {
+    ("docx", "txt"),
+    ("txt", "docx"),
+    ("docx", "odt"),
+    ("odt", "docx"),
+}
+
 
 def csv_to_json(source, target):
     with open(source, mode="r", newline="", encoding="utf-8") as csvfile:
-        data = list(csv.DictReader(csvfile))
+        reader = csv.DictReader(csvfile)
+        if reader.fieldnames is None:
+            raise ValueError("Broken CSV file: missing header row")
+        data = list(reader)
 
     with open(target, mode="w", encoding="utf-8") as jsonfile:
-        json.dump(data, jsonfile, indent=4)
+        json.dump(data, jsonfile, indent=4, ensure_ascii=False)
 
 
 def json_to_csv(source, target):
     with open(source, mode="r", encoding="utf-8") as jsonfile:
         data = json.load(jsonfile)
+
+    if not isinstance(data, list) or not data:
+        raise ValueError("Broken JSON file: expected a non-empty list of objects")
+    if not isinstance(data[0], dict):
+        raise ValueError("Broken JSON file: expected objects with fields")
 
     with open(target, mode="w", newline="", encoding="utf-8") as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames=data[0].keys())
@@ -36,7 +51,7 @@ def docx_to_txt(source, target):
 
 
 def txt_to_docx(source, target):
-    pypandoc.convert_file(source, "docx", format="plain", outputfile=target)
+    pypandoc.convert_file(source, "docx", format="markdown", outputfile=target)
 
 
 def docx_to_odt(source, target):
@@ -55,6 +70,16 @@ CONVERTERS = {
     ("docx", "odt"): docx_to_odt,
     ("odt", "docx"): odt_to_docx,
 }
+
+
+def check_pandoc():
+    try:
+        pypandoc.get_pandoc_path()
+    except OSError as e:
+        raise RuntimeError(
+            "Pandoc not found. Install Pandoc or run: "
+            "pip install pypandoc_binary"
+        ) from e
 
 
 def validate(source_format, target_format, source_path, target_path):
@@ -91,8 +116,50 @@ def validate(source_format, target_format, source_path, target_path):
             f"but To is set to {target_format}"
         )
 
+    if (source_format, target_format) in PANDOC_PAIRS:
+        try:
+            check_pandoc()
+        except RuntimeError as e:
+            return str(e)
+
     return None
 
 
 def convert(source_format, target_format, source_path, target_path):
-    CONVERTERS[(source_format, target_format)](source_path, target_path)
+    if (source_format, target_format) in PANDOC_PAIRS:
+        check_pandoc()
+
+    try:
+        CONVERTERS[(source_format, target_format)](source_path, target_path)
+    except json.JSONDecodeError as e:
+        raise ValueError(
+            f"Broken JSON file: {e}. Fix the file or choose another one."
+        ) from e
+    except csv.Error as e:
+        raise ValueError(
+            f"Broken CSV file: {e}. Fix the file or choose another one."
+        ) from e
+    except UnicodeDecodeError as e:
+        raise ValueError(
+            f"Broken file encoding: {e}. Use UTF-8."
+        ) from e
+    except OSError as e:
+        message = str(e)
+        if "pandoc" in message.lower():
+            raise RuntimeError(
+                "Pandoc not found. Install Pandoc or run: "
+                "pip install pypandoc_binary"
+            ) from e
+        raise ValueError(
+            f"Broken or unreadable file: {e}. "
+            "Check that the input file is not damaged."
+        ) from e
+    except RuntimeError:
+        raise
+    except ValueError:
+        raise
+    except Exception as e:
+        raise ValueError(
+            f"Broken or unsupported file content: {e}. "
+            "Check that the input file is valid."
+        ) from e
