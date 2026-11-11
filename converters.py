@@ -112,7 +112,7 @@ def validate(source_format, target_format, source_path, target_path):
         )
     if target_ext != target_format:
         return (
-            f"Error: output file is .{target_ext or '(no extension)'}, "
+            f"Error: output file is .{target_ext or 'missing'}, "
             f"but To is set to {target_format}"
         )
 
@@ -141,7 +141,7 @@ def convert(source_format, target_format, source_path, target_path):
         ) from e
     except UnicodeDecodeError as e:
         raise ValueError(
-            f"Broken file encoding: {e}. Use UTF-8."
+            f"Invalid file encoding: {e}. Please use UTF-8."
         ) from e
     except OSError as e:
         message = str(e)
@@ -151,8 +151,8 @@ def convert(source_format, target_format, source_path, target_path):
                 "pip install pypandoc_binary"
             ) from e
         raise ValueError(
-            f"Broken or unreadable file: {e}. "
-            "Check that the input file is not damaged."
+            f"Unreadable or damaged file: {e}. "
+            "Check that the input file is valid."
         ) from e
     except RuntimeError:
         raise
@@ -160,6 +160,6 @@ def convert(source_format, target_format, source_path, target_path):
         raise
     except Exception as e:
         raise ValueError(
-            f"Broken or unsupported file content: {e}. "
+            f"Unsupported or damaged file content: {e}. "
             "Check that the input file is valid."
         ) from e

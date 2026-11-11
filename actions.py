@@ -21,7 +21,7 @@ class ConverterActions:
         try:
             path = askopenfilename()
             if not path:
-                self.log("Open cancelled: no input file selected")
+                self.log("Open canceled: no input file selected")
                 return
             self.OpenedFile = path
             self.OpenPath.set(shorten_path(path))
@@ -43,7 +43,7 @@ class ConverterActions:
                 initialfile=default_output_name(self.OpenedFile, target_format),
             )
             if not path:
-                self.log("Save cancelled: no output path selected")
+                self.log("Save canceled: no output path selected")
                 return
 
             self.SaveFile = ensure_extension(path, target_format)

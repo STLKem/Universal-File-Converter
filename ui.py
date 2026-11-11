@@ -19,7 +19,7 @@ class FileConverter(ConverterActions):
         mainframe = ttk.Frame(root, padding=(12))
         mainframe.grid(column=0, row=0, sticky=(N, W, E, S))
 
-        ttk.Label(mainframe, text="FileConverter").grid(column=1, row=0, sticky=(W, E))
+        ttk.Label(mainframe, text="File Converter").grid(column=1, row=0, sticky=(W, E))
 
         ttk.Label(mainframe, text="From").grid(column=2, row=0, sticky=(W, E))
 
@@ -40,7 +40,7 @@ class FileConverter(ConverterActions):
         self.toConvert.grid(column=5, row=0, sticky=(W, E))
         self.toConvert["values"] = ()
 
-        ttk.Label(mainframe, text="File To Convert: ").grid(column=0, row=1, sticky=(W, E))
+        ttk.Label(mainframe, text="Input file:").grid(column=0, row=1, sticky=(W, E))
         self.OpenPath = StringVar()
         self.openPathLabel = ttk.Label(mainframe, textvariable=self.OpenPath, width=36)
         self.openPathLabel.grid(column=1, row=1, sticky=(W, E))
@@ -48,7 +48,7 @@ class FileConverter(ConverterActions):
             column=2, row=1, sticky=(W, E)
         )
 
-        ttk.Label(mainframe, text="Path Output: ").grid(column=0, row=2, sticky=(W, E))
+        ttk.Label(mainframe, text="Output path:").grid(column=0, row=2, sticky=(W, E))
         self.SavePath = StringVar()
         self.savePathLabel = ttk.Label(mainframe, textvariable=self.SavePath, width=36)
         self.savePathLabel.grid(column=1, row=2, sticky=(W, E))
@@ -60,7 +60,7 @@ class FileConverter(ConverterActions):
         self.convertButton.grid(column=1, row=3, sticky=(W, E))
 
         ttk.Label(mainframe, text="Status:").grid(column=0, row=4, sticky=(W, E))
-        self.status = StringVar(value="ожидание")
+        self.status = StringVar(value="waiting")
         ttk.Label(mainframe, textvariable=self.status).grid(
             column=1, row=4, columnspan=5, sticky=(W, E)
         )
