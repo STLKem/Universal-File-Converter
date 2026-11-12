@@ -133,4 +133,4 @@ Raport (auto + ręczne): `tests/TEST_REPORT.md`
 
 ## Autor
 
-Uzupełnij: imię i nazwisko / numer indeksu
+Vladyslav Hordiienko 105591
