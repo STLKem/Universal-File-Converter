@@ -1,57 +1,57 @@
 [
-  {
-    "id": "1",
-    "name": "Anna Kowalska",
-    "email": "anna@example.com",
-    "age": "28",
-    "city": "Gdańsk, Polska",
-    "active": "true",
-    "balance": "1250.50",
-    "joined": "2024-03-12",
-    "notes": "Preferuje e-mail, nie telefon"
-  },
-  {
-    "id": "2",
-    "name": "Łukasz Żółć",
-    "email": "lukasz@example.com",
-    "age": "34",
-    "city": "Kraków",
-    "active": "false",
-    "balance": "80.00",
-    "joined": "2023-11-02",
-    "notes": ""
-  },
-  {
-    "id": "3",
-    "name": "Maria Kim",
-    "email": "maria@example.com",
-    "age": "22",
-    "city": "Łódź, Polska",
-    "active": "true",
-    "balance": "0",
-    "joined": "2025-01-19",
-    "notes": "Nazwisko zawiera \"Kim\""
-  },
-  {
-    "id": "4",
-    "name": "Omar Hassan",
-    "email": "omar@example.com",
-    "age": "41",
-    "city": "Dubaj",
-    "active": "true",
-    "balance": "9800.75",
-    "joined": "2022-07-30",
-    "notes": "Klient VIP"
-  },
-  {
-    "id": "5",
-    "name": "Elena Nowak",
-    "email": "elena@example.com",
-    "age": "19",
-    "city": "Wrocław",
-    "active": "false",
-    "balance": "15.25",
-    "joined": "2025-06-08",
-    "notes": "Zniżka studencka"
-  }
+    {
+        "id": "1",
+        "name": "Anna Kowalska",
+        "email": "anna@example.com",
+        "age": "28",
+        "city": "Gdańsk, Polska",
+        "active": "true",
+        "balance": "1250.50",
+        "joined": "2024-03-12",
+        "notes": "Preferuje e-mail, nie telefon"
+    },
+    {
+        "id": "2",
+        "name": "Łukasz Żółć",
+        "email": "lukasz@example.com",
+        "age": "34",
+        "city": "Kraków",
+        "active": "false",
+        "balance": "80.00",
+        "joined": "2023-11-02",
+        "notes": ""
+    },
+    {
+        "id": "3",
+        "name": "Maria Kim",
+        "email": "maria@example.com",
+        "age": "22",
+        "city": "Łódź, Polska",
+        "active": "true",
+        "balance": "0",
+        "joined": "2025-01-19",
+        "notes": "Nazwisko zawiera \"Kim\""
+    },
+    {
+        "id": "4",
+        "name": "Omar Hassan",
+        "email": "omar@example.com",
+        "age": "41",
+        "city": "Dubaj",
+        "active": "true",
+        "balance": "9800.75",
+        "joined": "2022-07-30",
+        "notes": "Klient VIP"
+    },
+    {
+        "id": "5",
+        "name": "Elena Nowak",
+        "email": "elena@example.com",
+        "age": "19",
+        "city": "Wrocław",
+        "active": "false",
+        "balance": "15.25",
+        "joined": "2025-06-08",
+        "notes": "Zniżka studencka"
+    }
 ]

@@ -2,6 +2,7 @@ import threading
 from tkinter import END
 from tkinter.filedialog import askopenfilename, asksaveasfilename
 
+from app_logger import write_app_log
 from converters import TARGETS, convert, validate
 from utils import default_output_name, ensure_extension, shorten_path
 
@@ -13,9 +14,11 @@ class ConverterActions:
         self.logBox.insert(END, message + "\n")
         self.logBox.see(END)
         self.logBox.configure(state="disabled")
+        write_app_log(message)
 
     def set_status(self, text):
         self.status.set(text)
+        write_app_log(f"Status: {text}")
 
     def open_file(self):
         try:
@@ -54,9 +57,11 @@ class ConverterActions:
             self.log(str(e))
 
     def update_to_formats(self, event=None):
-        targets = TARGETS[self.fromFormat.get()]
+        source_format = self.fromFormat.get()
+        targets = TARGETS[source_format]
         self.toConvert["values"] = targets
         self.toFormat.set(targets[0])
+        self.log(f"Format selected: {source_format} -> {targets[0]}")
 
     def convert(self):
         if self.busy:

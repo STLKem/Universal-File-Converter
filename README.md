@@ -47,7 +47,10 @@ python main.py
 5. **Convert**.
 
 Status: `waiting` / `converting` / `ready` / `error`.  
-Szczegóły błędów i sukcesu są w polu **Log**.
+Szczegóły błędów i sukcesu są w polu **Log** oraz w pliku `logs/app.log`.
+
+Logi testów automatycznych zapisują się do `logs/tests.log`
+(każdy test osobno: PASSED / FAILED).
 
 ---
 
@@ -86,6 +89,8 @@ ui.py            — budowa okna
 actions.py       — obsługa przycisków, wątek konwersji
 converters.py    — walidacja + konwertery + rejestr
 utils.py         — ścieżki / nazwy plików
+app_logger.py    — zapis logów do plików
+logs/            — app.log (GUI) i tests.log (pytest)
 samples/         — dane testowe
 tests/           — pytest + raport testów
 requirements.txt
@@ -126,8 +131,10 @@ Raport (auto + ręczne): `tests/TEST_REPORT.md`
 - [pypandoc](https://github.com/JessicaTegner/pypandoc) + Pandoc
 - pytest
 - Dokumentacja projektu / fragment wzorcowy rejestru konwerterów z instrukcji
-- Pomoc AI (Cursor) przy refaktorze GUI, testach i dokumentacji — kod został
-  przejrzany i jest zrozumiany przez autora
+
+## Użycie AI
+
+W projekcie został użyty AI. Kod został przejrzany i jest zrozumiany przez autora.
 
 ---
 
